@@ -2,7 +2,9 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
-load_dotenv()
+# Force o recarregamento do arquivo .env
+load_dotenv(override=True) 
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def classificar_e_responder(conteudo_email):
