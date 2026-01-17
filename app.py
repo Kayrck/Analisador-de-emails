@@ -3,7 +3,6 @@ import logging
 from flask import Flask, render_template, request, jsonify, session, url_for, redirect
 from dotenv import load_dotenv
 
-# Nossas ferramentas criadas nas fases anteriores
 from utils.processors import extract_text_from_txt, extract_text_from_pdf
 from utils.ai_engine import classificar_e_responder
 
@@ -13,7 +12,6 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "chave-secreta-padrao")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # Limite de 16MB
 
-# Configuração de Logs básica
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -28,12 +26,13 @@ def classify():
     try:
         conteudo = ""
         
-        # 1. Tenta pegar texto direto
+        # Tenta pegar texto direto
         texto_direto = request.form.get("email_text", "").strip()
         
         if texto_direto:
             conteudo = texto_direto
-        # 2. Se não houver texto, tenta processar arquivo
+            
+        # Se não houver texto, tenta processar arquivo
         elif "email_file" in request.files:
             arquivo = request.files["email_file"]
             if arquivo.filename != "":
@@ -48,10 +47,10 @@ def classify():
         if not conteudo:
             return jsonify({"error": "Nenhum conteúdo enviado."}), 400
 
-        # 3. Envia para a OpenAI
+        # Envia para a OpenAI
         resultado = classificar_e_responder(conteudo)
         
-        # 4. Salva na sessão para exibir na página de resultado
+        # Salva na sessão para exibir 
         session["result"] = {
             "original_content": conteudo[:1000] + ("..." if len(conteudo) > 1000 else ""),
             "classification": resultado.get("categoria"),

@@ -71,9 +71,7 @@ document.getElementById('emailForm').addEventListener('submit', async (e) => {
     }
 });
 
-/**
- * Função para copiar o texto da resposta para o clipboard
- */
+
 function copyToClipboard() {
     const text = document.getElementById('textResposta').innerText;
     const btnCopy = document.getElementById('btnCopy');
@@ -90,9 +88,6 @@ function copyToClipboard() {
     });
 }
 
-/**
- * Função para resetar a interface e permitir nova análise
- */
 function resetUI() {
     document.getElementById('emailForm').reset();
     document.getElementById('resultContent').classList.add('d-none');
