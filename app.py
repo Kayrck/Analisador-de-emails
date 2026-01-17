@@ -58,7 +58,11 @@ def classify():
             "response": resultado.get("resposta")
         }
         
-        return jsonify({"success": True, "redirect": url_for("result")})
+        return jsonify({
+            "success": True, 
+            "classification": resultado.get("categoria"),
+            "response": resultado.get("resposta")
+        })
 
     except Exception as e:
         logger.error(f"Erro no processamento: {e}")
